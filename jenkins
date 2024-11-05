@@ -1,0 +1,59 @@
+pipeline {
+    agent any  // This will run the pipeline on any available agent.
+
+    stages {
+        stage('Job1') {
+            steps {
+                script {
+                    // Custom script or build steps for Job1
+                    echo "Running Job1"
+                    
+                    // Example: Running a shell command or build script
+                    // sh 'your-build-command-for-job1.sh'
+
+                    // Trigger Job2 if Job1 succeeds
+                    build job: 'Job2', wait: true
+                }
+            }
+        }
+
+        stage('Job2') {
+            steps {
+                script {
+                    // Custom script or build steps for Job2
+                    echo "Running Job2"
+                    
+                    // Example: Running a shell command or build script
+                    // sh 'your-build-command-for-job2.sh'
+
+                    // Trigger Job3 if Job2 succeeds
+                    build job: 'Job3', wait: true
+                }
+            }
+        }
+
+        stage('Job3') {
+            steps {
+                script {
+                    // Custom script or build steps for Job3
+                    echo "Running Job3"
+                    
+                    // Example: Running a shell command or build script
+                    // sh 'your-build-command-for-job3.sh'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+        failure {
+            echo 'Pipeline failed.'
+        }
+    }
+}
